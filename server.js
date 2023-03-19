@@ -1,94 +1,59 @@
 // dependencies //////////////////////////////////////////////////////////////////
-const express = require('express');
+
+const express = require("express");
 const app = express();
-const PORT = 3000;
-const fruits = require("./models/fruits.js"); //NOTE: it must start with ./ if it's just a file, not an NPM package
-const methodOverride = require("method-override");
+const PORT = 4500;
+const mongoose = require("mongoose");
+const signup = require("./models/SignUp.js");
+const cors = require("cors");
+
+const whitelist = ["http://localhost:3000"];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 
 // Middleware //////////////////////////////////////////////////////////////////
-app.use((req, res, next) => {
-    console.log("I run for all routes");
-    next();
-}); // functionally for all routes
-
 app.use(express.urlencoded({ extended: false })); // body parser
-
 app.use(express.static("public"));
+app.use(express.json());
+app.use(cors(corsOptions));
+//listen; //////////////////////////////////////////////////////////////////
 
-app.use(methodOverride("_method")); // We'll be adding a query parameter to our delete form named _method
-
-// routes //////////////////////////////////
-
-// test
-app.get("/", (req, res) => {
-    res.send("The healthy server life chose me!")
+app.listen(PORT, () => {
+  console.log("listening on port", PORT);
 });
 
-// index
-app.get("/fruits/", (req, res) => {
-    res.render("index.ejs", { // file to render
-        allFruits: fruits,
-    });
+mongoose.connection.on("error", (err) =>
+  console.log(err.message + " is Mongod not running?")
+);
+mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
+
+//...farther down the page
+
+mongoose.connect("mongodb://127.0.0.1:27017/signup", {
+  useNewUrlParser: true,
+});
+mongoose.connection.once("open", () => {
+  console.log("connected to mongoose...");
 });
 
 // post route
-app.post("/fruits", (req, res) => {
-    console.log(req.body);
-    if (req.body.readyToEat === "on") {
-      // if checked, req.body.readyToEat is set to 'on'
-      req.body.readyToEat = true;
-    } else {
-      // if not checked, req.body.readyToEat is undefined
-      req.body.readyToEat = false;
-    }
-    fruits.push(req.body);
-    res.redirect("/fruits");
-}); 
-
-// create route
-app.get("/fruits/new", (req, res) => {
-    res.render("new.ejs");
-});
-  
-// show route
-app.get("/fruits/:indexOfFruitsArray", (req, res) => {
-    res.render("show.ejs", { // res.render is a function that always takes 2 arguments. first is which file to render which is always a string
-        fruit: fruits[req.params.indexOfFruitsArray], // second param is an object - var_name_we_will_access: var
-    });
+app.post("http://localhost:4500/", async (req, res) => {
+  try {
+    const createdSignUp = await signup.create(req.body);
+    res.status(200).send(createdSignUp);
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).send("Internal server error");
+  }
 });
 
-// edit route
-app.get("/fruits/:index/edit", (req, res) => {
-    res.render(
-        "edit.ejs", //render views/edit.ejs
-        {
-            //pass in an object that contains
-            fruit: fruits[req.params.index], //the fruit object
-            index: req.params.index, //... and its index in the array
-        }
-    );
-});  
-
-// delete route
-app.delete("/fruits/:index", (req, res) => {
-    fruits.splice(req.params.index, 1); //remove the item from the array
-    res.redirect('/fruits');  //redirect back to index route
-});
-
-app.put("/fruits/:index", (req, res) => {
-    // :index is the index of our fruits array that we want to change
-    if (req.body.readyToEat === "on") {
-        //if checked, req.body.readyToEat is set to 'on'
-        req.body.readyToEat = true;
-    } else {
-        //if not checked, req.body.readyToEat is undefined
-        req.body.readyToEat = false;
-    }
-    fruits[req.params.index] = req.body; //in our fruits array, find the index that is specified in the url (:index).  Set that element to the value of req.body (the input data)
-    res.redirect("/fruits"); //redirect to the index page
-});
-
-// listen //////////////////////////////////////////////////////////////////
-app.listen(PORT, () => {
-    console.log("listening on port", PORT);
+app.get("/", (req, res) => {
+  res.send("Hello " + PORT);
 });
