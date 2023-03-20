@@ -44,7 +44,7 @@ mongoose.connection.once("open", () => {
 });
 
 // post route
-app.post("http://localhost:4500/", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     const createdSignUp = await signup.create(req.body);
     res.status(200).send(createdSignUp);
