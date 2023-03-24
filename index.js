@@ -8,7 +8,8 @@ import helmet from 'helmet'; // req safety
 import morgan from 'morgan'; // logins
 import path from 'path'; // comes with node so dont need to install
 import { fileURLToPath } from 'url'; // tgt with path, we can properly set the path when configuring directories
-import { register } from './controllers/auth.js' 
+import authRoutes from './routes/auth.js';
+import { register } from './controllers/auth.js';
 
 // CONFIGURATION
 dotenv.config();
@@ -41,15 +42,15 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage })
-
 // ROUTES
 app.get('/', (req, res) => {
   res.json({mssg: "The healthy server life chose YOU."})
 })
 
-// ROUTES WITH FILES
-app.post("/auth/register", upload.single("picture"), register); // uploading picture locally using middleware function
+app.use('/auth', authRoutes);
 
+// ROUTES WITH FILES
+app.post('/auth/register', upload.single("picture"), register); // uploading picture locally using middleware function
 
 // MONGOOSE SET UP
 const PORT = process.env.PORT || 6001;
