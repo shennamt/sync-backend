@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     min: 2,
     max: 50,
   },
+  occupation: String,
   email: {
     type: String,
     required: true,
@@ -24,7 +25,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 5,
   },
-  occupation: String,
   picturePath: {
     type: String,
     required: "",
@@ -40,3 +40,4 @@ const userSchema = new mongoose.Schema({
 )
 
 const User = mongoose.model("User", userSchema);
+export default User;
