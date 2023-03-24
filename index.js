@@ -8,8 +8,9 @@ import helmet from 'helmet'; // req safety
 import morgan from 'morgan'; // logins
 import path from 'path'; // comes with node so dont need to install
 import { fileURLToPath } from 'url'; // tgt with path, we can properly set the path when configuring directories
+import { register } from './controllers/auth.js' 
 
-// configurations
+// CONFIGURATION
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url); // grab file url 
 const __dirname = path.dirname(__filename); // only when use type modules
@@ -23,7 +24,13 @@ app.use(bodyParser.urlencoded({limit: '30mb', extended: true }))
 app.use(cors()); //invoke cross origin resource sharing policies
 app.use('/assets', express.static(path.join(__dirname, 'public/assets'))); // sets the dir of where we keep the assests, which is locally.
 
-// file storage - refer to github repo for multer
+// MIDDLEWARE TO LOG REQUESTS COMING IN
+app.use((req, res, next) => {
+  console.log(req.path, req.method)
+  next();
+})
+
+// FILE STORAGE
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/assets')
@@ -35,7 +42,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-// mongoose setup
+// ROUTES
+app.get('/', (req, res) => {
+  res.json({mssg: "The healthy server life chose YOU."})
+})
+
+// ROUTES WITH FILES
+app.post("/auth/register", upload.single("picture"), register); // uploading picture locally using middleware function
+
+
+// MONGOOSE SET UP
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
