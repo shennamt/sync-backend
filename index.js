@@ -9,6 +9,7 @@ import morgan from 'morgan'; // logins
 import path from 'path'; // comes with node so dont need to install
 import { fileURLToPath } from 'url'; // tgt with path, we can properly set the path when configuring directories
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
 import { register } from './controllers/auth.js';
 
 // CONFIGURATION
@@ -48,6 +49,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 
 // ROUTES WITH FILES
 app.post('/auth/register', upload.single("picture"), register); // uploading picture locally using middleware function
