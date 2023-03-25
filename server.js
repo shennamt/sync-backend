@@ -68,11 +68,18 @@ app.get("/projects/new", (req, res) => {
 
 app.post("/projects/", async (req, res) => {
   if (req.body.agile === "on") {
-    // if checked, req.body.readyToEat is set to 'on'
+    // if checked, req.body.agile is set to 'on'
     req.body.agile = true;
   } else {
-    // if not checked, req.body.readyToEat is undefined
+    // if not checked, req.body.agile is undefined
     req.body.agile = false;
+  }
+  if (req.body.kanban === "on") {
+    // if checked, req.body.kanban is set to 'on'
+    req.body.kanban = true;
+  } else {
+    // if not checked, req.body.kanban is undefined
+    req.body.kanban = false;
   }
   try {
     const project = await Project.create(req.body);

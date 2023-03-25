@@ -13,8 +13,10 @@
         <a href="/projects/<%= projects[i].id %>">
           <%=projects[i].projectName; %> </a
         ><br />
-        <% if(projects[i].agile === true){ %> It is agile. <% } else { %> It is
-        not agile. <% } %>
+        <% if(projects[i].agile === true){ %> Agile: Yes <br /><% } else { %>
+        Agile: Not Applicable. <br /><% } %> <% if(projects[i].kanban === true){
+        %> Kanban: Yes<br />
+        <% } else { %> Kanban: Not Applicable <br /><% } %>
         <form
           action="/projects/<%=projects[i].id; %>?_method=DELETE"
           method="POST"
