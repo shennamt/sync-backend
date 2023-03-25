@@ -9,6 +9,12 @@ import morgan from "morgan"; // logins
 import path from "path"; // comes with node so dont need to install
 import { fileURLToPath } from "url"; // tgt with path, we can properly set the path when configuring directories
 
+// KANBAN MODEL SET UP
+// import Kanban from "./models/kanban.js";
+
+// Include the method-override package
+import methodOverride from "method-override";
+
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url); // grab file url
 const __dirname = path.dirname(__filename); // only when use type modules
