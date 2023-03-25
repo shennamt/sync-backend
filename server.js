@@ -67,12 +67,12 @@ app.get("/projects/new", (req, res) => {
 });
 
 app.post("/projects/", async (req, res) => {
-  if (req.body.readyToEat === "on") {
+  if (req.body.agile === "on") {
     // if checked, req.body.readyToEat is set to 'on'
-    req.body.readyToEat = true;
+    req.body.agile = true;
   } else {
     // if not checked, req.body.readyToEat is undefined
-    req.body.readyToEat = false;
+    req.body.agile = false;
   }
   try {
     const project = await Project.create(req.body);

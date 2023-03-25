@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  color: { type: String, required: true },
-  readyToEat: Boolean
+  projectName: { type: String, required: true },
+  agile: Boolean
 });
 
 const Project = mongoose.model("Project", projectSchema);

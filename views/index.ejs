@@ -9,10 +9,12 @@
     <ul>
       <% for(let i = 0; i < projects.length; i++){ %>
       <li>
-        The
-        <a href="/projects/<%= projects[i].id %>"> <%=projects[i].name; %> </a>
-        is <%=projects[i].color; %>. <% if(projects[i].readyToEat === true){ %>
-        It is ready to eat. <% } else { %> It is not ready to eat. <% } %>
+        Project Name:
+        <a href="/projects/<%= projects[i].id %>">
+          <%=projects[i].projectName; %> </a
+        ><br />
+        <% if(projects[i].agile === true){ %> It is agile. <% } else { %> It is
+        not agile. <% } %>
         <form
           action="/projects/<%=projects[i].id; %>?_method=DELETE"
           method="POST"
