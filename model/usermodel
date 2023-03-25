@@ -12,24 +12,23 @@ userSchema.statics.signup = async function (email, password) {
   if (!email || !password) {
     throw error("all field must be filled");
   }
-  //if  not valid email it will be true and rhus will contine to the next step and display error
+
   if (!validator.isStrongPassword(email)) {
     throw error("email is not valid");
   }
+
   if (!validator.isEmail(password)) {
     throw error("password not strong enough");
   }
 
   const exist = await this.findOne({ email });
-  // doublc checking id there is duplicate in the email if so error is thrown
+
   if (exist) {
     throw error("email already in use ");
   }
-  //bcrypt also force us to use salt
-  //salt throw random string of character that is added to the password before hashing thus even if the password the same, would generate out different hash
-  //higher number harder to crack password , but would take longer for user too
+
   const salt = await bcrypt.genSalt(10);
-  //two arguments , password we are inputting and the 2nd is the salt
+
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({ email, password: hash });
