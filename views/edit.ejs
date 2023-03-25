@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Fruit Page</title>
+</head>
+<body>
+  <h1>Edit Fruit Page</h1>
+  <form action="/fruits/<%=fruit.id%>?_method=PUT" method="POST">
+    Name: <input type="text" name="name" value="<%=fruit.name%>"/><br /><br />
+    Color: <input type="text" name="color" value="<%=fruit.color%>"/><br /><br />
+    Is Ready To Eat:
+      <input type="checkbox" name="readyToEat"
+        <% if(fruit.readyToEat === true) { %>
+          checked
+        <% } %>
+        /><br /><br />
+    <input type="submit" name="" value="Submit Changes"/>
+  </form>
+</body>
+</html>
