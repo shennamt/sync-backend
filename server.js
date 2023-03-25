@@ -2,31 +2,36 @@
 
 const express = require("express");
 const app = express();
-const PORT = 4500;
 const mongoose = require("mongoose");
-const signup = require("./model/signupmodel.js");
-const cors = require("cors");
-const signupRoute = require("./routes/signuproutes");
-const userRoute = require("./routes/userroute");
 
-const whitelist = ["http://localhost:3000"];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+// Include dotenv
+const dotenv = require("dotenv").config();
+const PORT = process.env.PORT;
+
+// Include the method-override package
+const methodOverride = require("method-override");
+
+// const signup = require("./model/signupmodel.js");
+// const cors = require("cors");
+// const signupRoute = require("./routes/signuproutes");
+// const userRoute = require("./routes/userroute");
+
+// const whitelist = ["http://localhost:3000"];
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
 
 // Middleware //////////////////////////////////////////////////////////////////
-app.use(express.urlencoded({ extended: false })); // body parser
-app.use(express.static("public"));
-app.use(express.json());
-app.use(cors(corsOptions));
-
-//listen; //////////////////////////////////////////////////////////////////
+app.use(express.urlencoded({ extended: true })); // body parser
+// app.use(express.static("public"));
+// app.use(express.json());
+// app.use(cors(corsOptions));
 
 //connection
 mongoose.connection.on("error", (err) =>
@@ -34,18 +39,18 @@ mongoose.connection.on("error", (err) =>
 );
 mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/SYNC", {
-  useNewUrlParser: true,
+mongoose.connect("mongodb://127.0.0.1:27017/sync", {
+  useNewUrlParser: true
 });
 mongoose.connection.once("open", () => {
-  console.log("connected to mongoose...");
+  console.log("connected to mongo");
 });
 
 //routes
-app.use("/api/user", signupRoute);
-app.use("/api/user", userRoute);
+// app.use("/api/user", signupRoute);
+// app.use("/api/user", userRoute);
 
 //listen for request
 app.listen(PORT, () => {
-  console.log("listening on port", PORT);
+  console.log(`Listening at port ${PORT}.`);
 });
