@@ -11,7 +11,7 @@ const PORT = process.env.PORT;
 // Include the method-override package
 const methodOverride = require("method-override");
 
-const Fruit = require("./models/Kanban.js");
+const Project = require("./models/Project.js");
 
 // const signup = require("./model/signupmodel.js");
 // const cors = require("cors");
@@ -31,6 +31,7 @@ const Fruit = require("./models/Kanban.js");
 
 // Middleware //////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: true })); // body parser
+app.use(methodOverride("_method"));
 // app.use(express.static("public"));
 // app.use(express.json());
 // app.use(cors(corsOptions));
@@ -52,20 +53,20 @@ mongoose.connection.once("open", () => {
 // app.use("/api/user", signupRoute);
 // app.use("/api/user", userRoute);
 
-app.get("/fruits", async (req, res) => {
+app.get("/projects", async (req, res) => {
   try {
-    const allFruits = await Fruit.find({});
-    res.render("index.ejs", { fruits: allFruits });
+    const allProjects = await Project.find({});
+    res.render("index.ejs", { projects: allProjects });
   } catch (error) {
     console.log(error);
   }
 });
 
-app.get("/fruits/new", (req, res) => {
+app.get("/projects/new", (req, res) => {
   res.render("new.ejs");
 });
 
-app.post("/fruits/", async (req, res) => {
+app.post("/projects/", async (req, res) => {
   if (req.body.readyToEat === "on") {
     // if checked, req.body.readyToEat is set to 'on'
     req.body.readyToEat = true;
@@ -74,63 +75,63 @@ app.post("/fruits/", async (req, res) => {
     req.body.readyToEat = false;
   }
   try {
-    const fruit = await Fruit.create(req.body);
-    // console.log(fruit);
-    res.redirect("/fruits");
+    const project = await Project.create(req.body);
+    // console.log(project);
+    res.redirect("/projects");
   } catch (error) {
     console.log(error);
   }
 });
 
-app.get("/fruits/:id", async (req, res) => {
+app.get("/projects/:id", async (req, res) => {
   try {
-    const foundFruit = await Fruit.findById(req.params.id);
-    // res.send(foundFruit);
+    const foundProject = await Project.findById(req.params.id);
+    // res.send(foundProject);
     res.render("show.ejs", {
-      fruit: foundFruit
+      project: foundProject
     });
   } catch (error) {
     console.log(error);
   }
 });
 
-app.delete("/fruits/:id", async (req, res) => {
+app.delete("/projects/:id", async (req, res) => {
   // res.send("deleting...");
   // using try method for external systems, so that we can stop any errors.
   try {
-    const removeFruit = await Fruit.findByIdAndDelete(req.params.id);
-    console.log(removeFruit);
-    res.redirect("/fruits"); // redirect back to fruits index
+    const removeProject = await Project.findByIdAndDelete(req.params.id);
+    console.log(removeProject);
+    res.redirect("/projects"); // redirect back to projects index
   } catch (error) {
     console.log(error);
   }
 });
 
-app.get("/fruits/:id/edit", async (req, res) => {
+app.get("/projects/:id/edit", async (req, res) => {
   try {
-    const foundFruit = await Fruit.findById(req.params.id);
+    const foundProject = await Project.findById(req.params.id);
     res.render("edit.ejs", {
-      fruit: foundFruit // pass in found fruit
+      project: foundProject // pass in found project
     });
   } catch (error) {
     console.log(error);
   }
 });
 
-app.put("/fruits/:id", async (req, res) => {
+app.put("/projects/:id", async (req, res) => {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
   } else {
     req.body.readyToEat = false;
   }
   try {
-    const updatedFruit = await Fruit.findByIdAndUpdate(
+    const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
       req.body
       // { new: true }
     );
-    // res.send(updatedFruit);
-    res.redirect("/fruits");
+    // res.send(updatedProject);
+    res.redirect("/projects");
   } catch (error) {
     console.log(error);
   }
