@@ -131,6 +131,11 @@ app.put("/projects/:id", async (req, res) => {
   } else {
     req.body.agile = false;
   }
+  if (req.body.kanban === "on") {
+    req.body.kanban = true;
+  } else {
+    req.body.kanban = false;
+  }
   try {
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
