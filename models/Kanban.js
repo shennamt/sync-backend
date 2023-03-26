@@ -6,7 +6,7 @@ const kanbanSchema = new mongoose.Schema({
   toDo: { type: Array, required: true },
   inProgress: { type: Array, required: true },
   done: { type: Array, required: true },
-  assignees: { type: Array, required: true }
+  assignees: { type: Array, required: true },
 });
 
 const Kanban = mongoose.model("Kanban", kanbanSchema);

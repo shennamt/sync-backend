@@ -1,59 +1,58 @@
-import express from "express"; // server library
-import bodyParser from "body-parser"; // process req body
-import mongoose from "mongoose"; // mongodb access
-import cors from "cors"; // cross origin requests
-import dotenv from "dotenv"; // env variables
-import multer from "multer"; // uploading files locally
-import helmet from "helmet"; // req safety
-import morgan from "morgan"; // logins
-import path from "path"; // comes with node so dont need to install
-import { fileURLToPath } from "url"; // tgt with path, we can properly set the path when configuring directories
-
-// KANBAN MODEL SET UP
-// import Kanban from "./models/kanban.js";
-
-// Include the method-override package
-import methodOverride from "method-override";
-
-// CONFIGURATIONS
-const __filename = fileURLToPath(import.meta.url); // grab file url
-const __dirname = path.dirname(__filename); // only when use type modules
+// dependencies //////////////////////////////////////////////////////////////////
+require("dotenv").config();
+const express = require("express");
 const app = express();
-dotenv.config();
-app.use(express.json());
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors()); //invoke cross origin resource sharing policies
-app.use("/assets", express.static(path.join(__dirname, "public/assets"))); // sets the dir of where we keep the assests, which is locally.
 
-// FILE STORAGE - CHECK MULTER GITHUB FOR MORE INFO
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+const mongoose = require("mongoose");
+
+const cors = require("cors");
+
+const userRoute = require("./routes/user");
+
+const whitelist = ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: "*",
+};
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
+// Middleware; //////////////////////////////////////////////////////////////////
+app.use(express.urlencoded({ extended: false })); // body parser
+app.use(express.static("public"));
+app.use(express.json());
+
+app.use(cors(corsOptions));
+//listen; //////////////////////////////////////////////////////////////////
+
+//connection
+mongoose.connection.on("error", (err) =>
+  console.log(err.message + " is Mongod not running?")
+);
+mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
+
+mongoose.connect(
+  "mongodb+srv://sync:sync@cluster0.qfkoelo.mongodb.net/?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
   }
+);
+mongoose.connection.once("open", () => {
+  console.log("connected to mongoose...");
 });
 
-const upload = multer({ storage });
+//routes
 
-// MONGOOSE SET UP
-const PORT = process.env.PORT || 6001;
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-  })
-  .catch((error) => console.log(`${error} Database connection failed.`));
+app.use("/api/user", userRoute);
 
-/* LISTEN FOR PORT */
-app.listen(PORT, () => {
-  console.log(`Listening at port ${PORT}.`);
+//listen for request
+app.listen(6001, () => {
+  console.log("listening on port", 6001);
 });
