@@ -126,10 +126,10 @@ app.get("/projects/:id/edit", async (req, res) => {
 });
 
 app.put("/projects/:id", async (req, res) => {
-  if (req.body.readyToEat === "on") {
-    req.body.readyToEat = true;
+  if (req.body.agile === "on") {
+    req.body.agile = true;
   } else {
-    req.body.readyToEat = false;
+    req.body.agile = false;
   }
   try {
     const updatedProject = await Project.findByIdAndUpdate(

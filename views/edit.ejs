@@ -13,11 +13,9 @@
         name="projectName"
         value="<%=project.projectName%>"
       /><br /><br />
-      Color:
-      <input type="text" name="color" value="<%=project.color%>" /><br /><br />
-      Is Ready To Eat:
-      <input type="checkbox" name="readyToEat" />
-      <% if(project.readyToEat === true) { %> checked <% } %><br /><br />
+      Agile: <input type="checkbox" name="agile" <% if (project.agile === true)
+      {%> checked <% } %>/>
+      <br /><br />
       <input type="submit" name="" value="Submit Changes" />
     </form>
   </body>
