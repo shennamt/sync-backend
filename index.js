@@ -99,6 +99,18 @@ app.post("/users/", async (req, res) => {
   }
 });
 
+// USER - Display/Read Each User
+app.get("/users/:id", async (req, res) => {
+  try {
+    const foundUser = await User.findById(req.params.id);
+    res.render("showUsers.ejs", {
+      user: foundUser
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);

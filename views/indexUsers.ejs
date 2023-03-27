@@ -13,7 +13,7 @@
         <a href="/users/<%= users[i].id %>"> <%=users[i].firstName; %> </a
         ><br />
         Last Name:
-        <a href="/users/<%= users[i].id %>"> <%=users[i].lastName; %> </a><br />
+        <%=users[i].lastName; %> </a><br />
         <% if(users[i].student === true){ %> Student: Yes <br />
         <% } else { %> Student: Not Applicable. <br />
         <% } %> <% if(users[i].professional === true){ %> Professional: Yes<br />
