@@ -59,6 +59,16 @@ mongoose.connection.once("open", () => {
 
 // app.use("/api/user", userRoute);
 
+// User
+app.get("/users", async (req, res) => {
+  try {
+    const allProjects = await Project.find({});
+    res.render("indexUsers.ejs", { projects: allProjects });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
