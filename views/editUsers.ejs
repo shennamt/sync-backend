@@ -7,6 +7,8 @@
   <body>
     <h1>Edit User Page</h1>
     <form action="/users/<%=user.id%>?_method=PUT" method="POST">
+      Email:
+      <input type="text" name="email" value="<%=user.email%>" /><br /><br />
       First Name:
       <input
         type="text"

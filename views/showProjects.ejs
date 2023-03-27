@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Projects Show Page</title>
+  </head>
+  <body>
+    <h1>Projects Show Page</h1>
+    Project Name: <%=project.name; %><br /><br />
+    Agile: <% if (project.agile === true) { %> Yes<br /><br />
+    <% } else { %> Not Applicable.<br /><br /><% } %> Kanban: <% if
+    (project.kanban === true) { %> Yes<br /><br />
+    <% } else { %> Not Applicable.<br /><br /><% } %>
+    <nav>
+      <a href="/projects">Back to Projects Index</a>
+    </nav>
+  </body>
+</html>
