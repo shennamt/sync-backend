@@ -3,7 +3,7 @@ const router = express.Router();
 const Project = require("../models/Project.js");
 
 // PROJECT - Display/Read Index
-app.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const allProjects = await Project.find({});
     res.render("indexProjects.ejs", { projects: allProjects });
@@ -13,12 +13,12 @@ app.get("/", async (req, res) => {
 });
 
 // PROJECT - Display/Read New Project
-app.get("/new", (req, res) => {
+router.get("/new", (req, res) => {
   res.render("newProjects.ejs");
 });
 
 // PROJECT - Create New Project
-app.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   if (req.body.agile === "on") {
     // if checked, req.body.agile is set to 'on'
     req.body.agile = true;
@@ -43,7 +43,7 @@ app.post("/", async (req, res) => {
 });
 
 // PROJECT - Display/Read Each Project
-app.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
     // res.send(foundProject);
@@ -56,7 +56,7 @@ app.get("/:id", async (req, res) => {
 });
 
 // PROJECT - Display Edit User Page
-app.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
     res.render("editProjects.ejs", {
@@ -68,7 +68,7 @@ app.get("/:id/edit", async (req, res) => {
 });
 
 // PROJECT - Update Project
-app.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   if (req.body.agile === "on") {
     req.body.agile = true;
   } else {
@@ -93,7 +93,7 @@ app.put("/:id", async (req, res) => {
 });
 
 // PROJECT - Delete Project
-app.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const removeProject = await Project.findByIdAndDelete(req.params.id);
     console.log(removeProject);
