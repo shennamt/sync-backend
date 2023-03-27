@@ -150,6 +150,17 @@ app.put("/users/:id", async (req, res) => {
   }
 });
 
+// USER - Delete User
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const removeUser = await User.findByIdAndDelete(req.params.id);
+    console.log(removeUser);
+    res.redirect("/users"); // redirect back to users index
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
