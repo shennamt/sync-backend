@@ -223,6 +223,43 @@ app.get("/projects/:id", async (req, res) => {
   }
 });
 
+// PROJECT - Display Edit User Page
+app.get("/projects/:id/edit", async (req, res) => {
+  try {
+    const foundProject = await Project.findById(req.params.id);
+    res.render("editProjects.ejs", {
+      project: foundProject // pass in found project
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// PROJECT - Update Project
+app.put("/projects/:id", async (req, res) => {
+  if (req.body.agile === "on") {
+    req.body.agile = true;
+  } else {
+    req.body.agile = false;
+  }
+  if (req.body.kanban === "on") {
+    req.body.kanban = true;
+  } else {
+    req.body.kanban = false;
+  }
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.id,
+      req.body
+      // { new: true }
+    );
+    // res.send(updatedProject);
+    res.redirect("/projects");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
