@@ -36,6 +36,7 @@ const Project = require("./models/Project.js");
 app.use(express.urlencoded({ extended: true })); // body parser
 app.use(express.static("public"));
 app.use(express.json());
+app.use(methodOverride("_method")); // for update and delete purpose
 
 // app.use(cors(corsOptions));
 //listen; //////////////////////////////////////////////////////////////////
@@ -106,6 +107,44 @@ app.get("/users/:id", async (req, res) => {
     res.render("showUsers.ejs", {
       user: foundUser
     });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// USER - Display Edit User Page
+app.get("/users/:id/edit", async (req, res) => {
+  try {
+    const foundUser = await User.findById(req.params.id);
+    res.render("editUsers.ejs", {
+      user: foundUser // pass in found project
+    });
+    console.log("foundUser -", foundUser);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// USER - Update User
+app.put("/users/:id", async (req, res) => {
+  if (req.body.student === "on") {
+    req.body.student = true;
+  } else {
+    req.body.student = false;
+  }
+  if (req.body.professional === "on") {
+    req.body.professional = true;
+  } else {
+    req.body.professional = false;
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body
+      // { new: true }
+    );
+    console.log("updatedUser -", updatedUser);
+    res.redirect("/users");
   } catch (error) {
     console.log(error);
   }
