@@ -18,7 +18,7 @@ app.get("/new", (req, res) => {
 });
 
 // PROJECT - Create New Project
-app.post("/projects/", async (req, res) => {
+app.post("/", async (req, res) => {
   if (req.body.agile === "on") {
     // if checked, req.body.agile is set to 'on'
     req.body.agile = true;
@@ -43,7 +43,7 @@ app.post("/projects/", async (req, res) => {
 });
 
 // PROJECT - Display/Read Each Project
-app.get("/projects/:id", async (req, res) => {
+app.get("/:id", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
     // res.send(foundProject);
@@ -56,7 +56,7 @@ app.get("/projects/:id", async (req, res) => {
 });
 
 // PROJECT - Display Edit User Page
-app.get("/projects/:id/edit", async (req, res) => {
+app.get("/:id/edit", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
     res.render("editProjects.ejs", {
@@ -68,7 +68,7 @@ app.get("/projects/:id/edit", async (req, res) => {
 });
 
 // PROJECT - Update Project
-app.put("/projects/:id", async (req, res) => {
+app.put("/:id", async (req, res) => {
   if (req.body.agile === "on") {
     req.body.agile = true;
   } else {
@@ -93,7 +93,7 @@ app.put("/projects/:id", async (req, res) => {
 });
 
 // PROJECT - Delete Project
-app.delete("/projects/:id", async (req, res) => {
+app.delete("/:id", async (req, res) => {
   try {
     const removeProject = await Project.findByIdAndDelete(req.params.id);
     console.log(removeProject);
