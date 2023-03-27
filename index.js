@@ -181,6 +181,34 @@ app.get("/projects", async (req, res) => {
 });
 
 // PROJECT - Display/Read New Project
+app.get("/projects/new", (req, res) => {
+  res.render("newProjects.ejs");
+});
+
+// PROJECT - Create New Project
+app.post("/projects/", async (req, res) => {
+  if (req.body.agile === "on") {
+    // if checked, req.body.agile is set to 'on'
+    req.body.agile = true;
+  } else {
+    // if not checked, req.body.agile is undefined
+    req.body.agile = false;
+  }
+  if (req.body.kanban === "on") {
+    // if checked, req.body.kanban is set to 'on'
+    req.body.kanban = true;
+  } else {
+    // if not checked, req.body.kanban is undefined
+    req.body.kanban = false;
+  }
+  try {
+    const project = await Project.create(req.body);
+    // console.log(project);
+    res.redirect("/projects");
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 //listen for request
 app.listen(PORT, () => {
