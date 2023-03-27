@@ -11,23 +11,23 @@ const cors = require("cors");
 // Include the method-override package
 const methodOverride = require("method-override");
 
-// const userRoute = require("./routes/user");
+const userRoute = require("./routes/user");
 
 const whitelist = ["http://localhost:3000"];
 
-const corsOptions = {
-  origin: "*"
-};
-
 // const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
+//   origin: "*"
 // };
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 
 const User = require("./models/User.js");
 const Project = require("./models/Project.js");
@@ -38,7 +38,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(methodOverride("_method")); // for update and delete purpose
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 //listen; //////////////////////////////////////////////////////////////////
 
 //connection
