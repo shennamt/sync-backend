@@ -260,6 +260,17 @@ app.put("/projects/:id", async (req, res) => {
   }
 });
 
+// PROJECT - Delete Project
+app.delete("/projects/:id", async (req, res) => {
+  try {
+    const removeProject = await Project.findByIdAndDelete(req.params.id);
+    console.log(removeProject);
+    res.redirect("/projects"); // redirect back to projects index
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
