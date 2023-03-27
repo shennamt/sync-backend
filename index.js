@@ -60,6 +60,15 @@ mongoose.connection.once("open", () => {
 
 // app.use("/api/user", userRoute);
 
+// MAIN - Display App Routes
+app.get("/", async (req, res) => {
+  try {
+    res.render("main.ejs");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // USER - Display/Read Index
 app.get("/users", async (req, res) => {
   try {
