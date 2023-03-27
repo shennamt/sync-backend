@@ -170,6 +170,16 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
+// PROJECT - Display/Read Index
+app.get("/projects", async (req, res) => {
+  try {
+    const allProjects = await Project.find({});
+    res.render("indexProjects.ejs", { projects: allProjects });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
