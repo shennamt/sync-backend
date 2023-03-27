@@ -59,11 +59,41 @@ mongoose.connection.once("open", () => {
 
 // app.use("/api/user", userRoute);
 
-// User
+// USER - Display/Read Index
 app.get("/users", async (req, res) => {
   try {
-    const allProjects = await Project.find({});
-    res.render("indexUsers.ejs", { projects: allProjects });
+    const allUsers = await User.find({});
+    res.render("indexUsers.ejs", { users: allUsers });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// USER - Display/Read New User
+app.get("/users/new", (req, res) => {
+  res.render("newUsers.ejs");
+});
+
+// USER - Create New User
+app.post("/users/", async (req, res) => {
+  if (req.body.student === "on") {
+    // if checked, req.body.student is set to 'on'
+    req.body.student = true;
+  } else {
+    // if not checked, req.body.student is undefined
+    req.body.student = false;
+  }
+  if (req.body.professional === "on") {
+    // if checked, req.body.professional is set to 'on'
+    req.body.professional = true;
+  } else {
+    // if not checked, req.body.professional is undefined
+    req.body.professional = false;
+  }
+  try {
+    const user = await User.create(req.body);
+    // console.log(user);
+    res.redirect("/users");
   } catch (error) {
     console.log(error);
   }
