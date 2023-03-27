@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Users Index Page</title>
+  </head>
+  <body>
+    <h1>Users Index Page</h1>
+    <ul>
+      <% for(let i = 0; i < users.length; i++){ %>
+      <li>
+        First Name:
+        <a href="/users/<%= users[i].id %>"> <%=users[i].firstName; %> </a
+        ><br />
+        Last Name:
+        <%=users[i].lastName; %> </a><br />
+        <% if(users[i].student === true){ %> Student: Yes <br />
+        <% } else { %> Student: Not Applicable. <br />
+        <% } %> <% if(users[i].professional === true){ %> Professional: Yes<br />
+        <% } else { %> Professional: Not Applicable <br /><% } %>
+        <br />
+        <div style="display: flex">
+          <form
+            action="/users/<%=users[i].id; %>/edit"
+            style="padding-right: 20px"
+          >
+            <input type="submit" value="EDIT" />
+          </form>
+          <form action="/users/<%=users[i].id; %>?_method=DELETE" method="POST">
+            <input type="submit" value="DELETE" />
+          </form>
+          <br />
+          <br />
+        </div>
+      </li>
+      <% } %>
+    </ul>
+
+    <form action="/users/new" style="margin-left: 40px">
+      <input type="submit" name="" value="CREATE NEW USER" />
+    </form>
+  </body>
+</html>

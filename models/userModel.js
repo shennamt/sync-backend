@@ -8,12 +8,16 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
+  firstName: { type: String },
+  lastName: { type: String },
+  student: Boolean,
+  professional: Boolean
 });
 
 // static signup method
