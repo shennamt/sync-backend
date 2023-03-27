@@ -210,6 +210,19 @@ app.post("/projects/", async (req, res) => {
   }
 });
 
+// PROJECT - Display/Read Each Project
+app.get("/projects/:id", async (req, res) => {
+  try {
+    const foundProject = await Project.findById(req.params.id);
+    // res.send(foundProject);
+    res.render("showProjects.ejs", {
+      project: foundProject
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //listen for request
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
