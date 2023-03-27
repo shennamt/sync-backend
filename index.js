@@ -46,7 +46,9 @@ mongoose.connection.on("error", (err) =>
 );
 mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
 
-mongoose.connect(process.env.MONGO_URL, {
+// changed mongodb due the following error
+// Error - trying to access database from an IP that isn't whitelisted
+mongoose.connect("mongodb://127.0.0.1:27017/sync", {
   useNewUrlParser: true
 });
 mongoose.connection.once("open", () => {
