@@ -8,6 +8,9 @@ const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT;
 const cors = require("cors");
 
+// Include the method-override package
+const methodOverride = require("method-override");
+
 // const userRoute = require("./routes/user");
 
 const whitelist = ["http://localhost:3000"];
@@ -25,8 +28,12 @@ const corsOptions = {
 //     }
 //   },
 // };
+
+const User = require("./models/User.js");
+const Project = require("./models/Project.js");
+
 // Middleware; //////////////////////////////////////////////////////////////////
-app.use(express.urlencoded({ extended: false })); // body parser
+app.use(express.urlencoded({ extended: true })); // body parser
 app.use(express.static("public"));
 app.use(express.json());
 
