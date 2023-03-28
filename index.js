@@ -42,9 +42,6 @@ app.use(methodOverride("_method")); // for update and delete purpose
 
 app.use(cors(corsOptions));
 
-app.use("/users", usersController);
-app.use("/projects", projectsController);
-
 //listen; //////////////////////////////////////////////////////////////////
 
 //connection
@@ -65,6 +62,8 @@ mongoose.connection.once("open", () => {
 //routes
 
 app.use("/api/user", userRoute);
+app.use("/users", usersController);
+app.use("/projects", projectsController);
 
 // MAIN - Display App Routes
 app.get("/", async (req, res) => {
