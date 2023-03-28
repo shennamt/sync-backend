@@ -32,8 +32,6 @@ const corsOptions = {
 //   },
 // };
 
-const Project = require("./models/Project.js");
-
 // Middleware; //////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: true })); // body parser
 app.use(express.static("public"));

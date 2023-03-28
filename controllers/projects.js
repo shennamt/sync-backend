@@ -1,6 +1,8 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 const Project = require("../models/Project.js");
+const Kanban = require("../models/Kanban.js");
 
 // PROJECT - Display/Read Index
 router.get("/", async (req, res) => {
@@ -55,13 +57,39 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// PROJECT - Display Edit User Page
+// PROJECT - Display Edit Project Page
 router.get("/:id/edit", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
     res.render("editProjects.ejs", {
       project: foundProject // pass in found project
     });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// PROJECT KANBAN - Display Edit Project Kanban Page
+router.get("/:id/edit/kanban", async (req, res) => {
+  try {
+    const foundProject = await Project.findById(req.params.id);
+    if (foundProject.kanban === true) {
+      const kanban = await Kanban.create(req.body);
+      console.log("kanban:", kanban);
+      res.render("editProjectsKanban.ejs", {
+        project: foundProject, // pass in found project
+        kanban // pass in kanban
+      });
+    } else if (
+      foundProject.kanban === true &&
+      foundProject.kanbanAssigned === true
+    ) {
+      const foundKanban = await Project.findById(req.params.id);
+      res.render("editProjectsKanban.ejs", {
+        project: foundProject, // pass in found project
+        kanban: foundKanban // pass in kanban
+      });
+    }
   } catch (error) {
     console.log(error);
   }
