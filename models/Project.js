@@ -4,7 +4,7 @@ const projectSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
   agile: Boolean,
   kanban: Boolean,
-  kanbanAssigned: Boolean,
+  kanbanAssigned: { type: Boolean, default: false },
   member: { type: Array, default: [] }
 });
 
