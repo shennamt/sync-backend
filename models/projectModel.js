@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const { schemaOptions } = require('./modelOptions')
 
 const projectSchema = new Schema({
   user: {
@@ -30,6 +29,6 @@ const projectSchema = new Schema({
   // agile: Boolean,
   // kanban: Boolean,
   // member: { type: Array, default: [] }
-}, schemaOptions)
+})
 
 module.exports = mongoose.model('Project', projectSchema)
