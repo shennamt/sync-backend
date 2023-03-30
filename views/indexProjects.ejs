@@ -6,37 +6,32 @@
   </head>
   <body>
     <h1>Projects Index Page</h1>
-    <ul>
-      <% for(let i = 0; i < projects.length; i++){ %>
-      <li>
-        Project Name:
-        <a href="/projects/<%= projects[i].id %>">
-          <%=projects[i].projectName; %> </a
-        ><br />
-        <% if(projects[i].agile === true){ %> Agile: Yes <br />
-        <% } else { %> Agile: Not Applicable. <br />
-        <% } %> <% if(projects[i].kanban === true){ %> Kanban: Yes<br />
-        <% } else { %> Kanban: Not Applicable <br /><% } %>
-        <br />
-        <div style="display: flex">
-          <form
-            action="/projects/<%=projects[i].id; %>/edit"
-            style="padding-right: 20px"
-          >
-            <input type="submit" value="EDIT" />
-          </form>
-          <form
-            action="/projects/<%=projects[i].id; %>?_method=DELETE"
-            method="POST"
-          >
-            <input type="submit" value="DELETE" />
-          </form>
-          <br />
-          <br />
-        </div>
-      </li>
-      <% } %>
-    </ul>
+    <% for(let i = 0; i < projects.length; i++){ %> Project Name:
+    <a href="/projects/<%= projects[i].id %>">
+      <%=projects[i].projectName; %> </a
+    ><br />
+    <% if(projects[i].agile === true){ %> Agile: Yes <br />
+    <% } else { %> Agile: Not Applicable. <br />
+    <% } %> <% if(projects[i].kanban === true){ %> Kanban: Yes<br />
+    <% } else { %> Kanban: Not Applicable <br /><% } %>
+    <br />
+    <div style="display: flex">
+      <form
+        action="/projects/<%=projects[i].id; %>/edit"
+        style="padding-right: 20px"
+      >
+        <input type="submit" value="EDIT" />
+      </form>
+      <form
+        action="/projects/<%=projects[i].id; %>?_method=DELETE"
+        method="POST"
+      >
+        <input type="submit" value="DELETE" />
+      </form>
+      <br />
+      <br />
+    </div>
+    <% } %>
 
     <form action="/projects/new">
       <input type="submit" name="" value="CREATE NEW PROJECT" />
