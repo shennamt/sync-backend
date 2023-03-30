@@ -59,8 +59,7 @@ mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
 });
 
-//routes
-
+// ROUTES
 app.use("/api/user", userRoute);
 app.use("/users", usersController);
 app.use("/projects", projectsController);
@@ -74,7 +73,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-//listen for request
+// LISTENER
 app.listen(PORT, () => {
   console.log("listening on port", PORT);
 });
