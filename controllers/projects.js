@@ -138,8 +138,11 @@ router.put("/:id/kanban", async (req, res) => {
       req.body
       // { new: true }
     );
+    const project = await Project.findById(req.params.id);
+    project.kanbanTasksAssigned = req.body.tasksAssigned;
     // res.send(updatedProject);
     console.log("updatedKanban:", updatedKanban);
+    console.log("project:", project);
     res.redirect("/projects");
   } catch (error) {
     console.log(error);

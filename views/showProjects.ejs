@@ -13,9 +13,9 @@
     <% } else { %> Not Applicable.<br /><br /><% } %> <% if
     (!kanban.tasksAssigned) { %> Tasks: Pending Assignment <% } else { %>
     Tasks:<br />
-    To-do: <br />
-    Doing: <br />
-    Done: <br />
+    To-do: <%=kanban.todo%><br />
+    Doing: <%=kanban.doing%><br />
+    Done: <%=kanban.done%><br />
     <% } %>
     <br /><br />
     <nav>
