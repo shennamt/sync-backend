@@ -32,7 +32,7 @@ const corsOptions = {
 //   },
 // };
 
-const Project = require("./models/Project.js");
+const Project = require("./models/ProjectSchema.js");
 
 // Middleware; //////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: true })); // body parser

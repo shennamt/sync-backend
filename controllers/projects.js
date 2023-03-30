@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const Project = require("../models/Project.js");
+const Project = require("../models/ProjectSchema.js");
 
 // PROJECT - Display/Read Index
 router.get("/", async (req, res) => {
   try {
     const allProjects = await Project.find({});
-    res.render("indexProjects.ejs", { projects: allProjects });
+    // res.render("indexProjects.ejs", { projects: allProjects });
+    res.json(allProjects);
   } catch (error) {
     console.log(error);
   }
