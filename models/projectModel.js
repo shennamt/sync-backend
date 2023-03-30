@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const { schemaOptions } = require('./modelOptions')
 
-const projectModel = new Schema({
+const projectSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -32,4 +32,4 @@ const projectModel = new Schema({
   // member: { type: Array, default: [] }
 }, schemaOptions);
 
-module.exports = mongoose.model('Project', projectModel);
+module.exports = mongoose.model('Project', projectSchema);

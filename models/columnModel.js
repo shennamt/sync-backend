@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const { schemaOptions } = require('./modelOptions')
 
-const columnModel = new Schema({
+const columnSchema = new Schema({
   project: {
     type: Schema.Types.ObjectId,
     ref: 'Project',
@@ -14,4 +14,4 @@ const columnModel = new Schema({
   },
 }, schemaOptions);
 
-module.exports = mongoose.model('Column', columnModel);
+module.exports = mongoose.model('Column', columnSchema);
