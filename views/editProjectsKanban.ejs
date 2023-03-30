@@ -16,6 +16,10 @@
         name="projectName"
         value="<%=project.projectName%>"
       /><br /><br />
+      Project ID:
+      <input type="text" name="projectID" value="<%=project.id>" /><br /><br />
+      Kanban ID:
+      <input type="text" name="kanban" value="<%=kanban.id%>" /><br /><br />
       Kanban: <input type="checkbox" name="kanban" <% if (project.kanban ===
       true) {%> checked <% } %>/>
       <br /><br />

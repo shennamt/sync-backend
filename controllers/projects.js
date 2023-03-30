@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const router = express.Router();
 const Project = require("../models/Project.js");
 const Kanban = require("../models/Kanban.js");
@@ -37,8 +36,13 @@ router.post("/", async (req, res) => {
   }
   try {
     const project = await Project.create(req.body);
-    const kanban = await Kanban.create(req.body);
-    kanban._id = project.id;
+    const kanban = new Kanban({ _id: project.id });
+    await kanban.save();
+    // kanban._id = project.id;
+    console.log(`project ${project.id}`);
+    console.log(`kanban ${kanban.id}`);
+
+    // console.log(`projectKanban ${projectKanban.id}`);
     res.redirect("/projects");
   } catch (error) {
     console.log(error);
@@ -74,8 +78,13 @@ router.get("/:id/edit", async (req, res) => {
 router.get("/:id/edit/kanban", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
+    const foundKanban = await Kanban.findById(req.params.id);
+    console.log(
+      `foundProject - ${foundProject} and foundKanban - ${foundKanban}`
+    );
     res.render("editProjectsKanban.ejs", {
-      project: foundProject // pass in found project
+      project: foundProject, // pass in found project
+      kanban: foundKanban // pass in kanban
     });
   } catch (error) {
     console.log(error);
