@@ -59,7 +59,7 @@ mongoose.connection.once("open", () => {
 // ROUTES
 app.use("/api/user", userRoute);
 app.use("/users", usersController);
-app.use("/api/project", projectRoute);
+app.use("/projects", projectRoute);
 
 // MAIN - Display App Routes
 app.get("/", async (req, res) => {
