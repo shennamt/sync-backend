@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const { schemaOptions } = require('./modelOptions')
+const { schemaOptions } = require('./modelOptions')
 
-const projectSchema = new Schema({
+const projectModel = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   title: {
     type: String,
@@ -29,6 +30,6 @@ const projectSchema = new Schema({
   // agile: Boolean,
   // kanban: Boolean,
   // member: { type: Array, default: [] }
-});
+}, schemaOptions);
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Project', projectModel);
