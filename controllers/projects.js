@@ -1,12 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project.js");
+const Kanban = require("../models/Kanban.js");
 
 // PROJECT - Display/Read Index
 router.get("/", async (req, res) => {
   try {
     const allProjects = await Project.find({});
-    res.render("indexProjects.ejs", { projects: allProjects });
+    const allKanban = await Kanban.find({});
+    res.render("indexProjects.ejs", {
+      projects: allProjects,
+      kanban: allKanban
+    });
   } catch (error) {
     console.log(error);
   }
@@ -17,7 +22,7 @@ router.get("/new", (req, res) => {
   res.render("newProjects.ejs");
 });
 
-// PROJECT - Create New Project
+// PROJECT - Create New Project and Kanban
 router.post("/", async (req, res) => {
   if (req.body.agile === "on") {
     // if checked, req.body.agile is set to 'on'
@@ -35,7 +40,10 @@ router.post("/", async (req, res) => {
   }
   try {
     const project = await Project.create(req.body);
-    // console.log(project);
+    const kanban = new Kanban({ _id: project.id });
+    await kanban.save();
+    console.log("project", project);
+    console.log("kanban", kanban);
     res.redirect("/projects");
   } catch (error) {
     console.log(error);
@@ -46,16 +54,18 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
+    const foundKanban = await Kanban.findById(req.params.id);
     // res.send(foundProject);
     res.render("showProjects.ejs", {
-      project: foundProject
+      project: foundProject,
+      kanban: foundKanban
     });
   } catch (error) {
     console.log(error);
   }
 });
 
-// PROJECT - Display Edit User Page
+// PROJECT - Display Edit Project Page
 router.get("/:id/edit", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
@@ -86,6 +96,7 @@ router.put("/:id", async (req, res) => {
       // { new: true }
     );
     // res.send(updatedProject);
+    console.log("updatedProject:", updatedProject);
     res.redirect("/projects");
   } catch (error) {
     console.log(error);
@@ -98,6 +109,41 @@ router.delete("/:id", async (req, res) => {
     const removeProject = await Project.findByIdAndDelete(req.params.id);
     console.log(removeProject);
     res.redirect("/projects"); // redirect back to projects index
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// KANBAN - Display Edit Kanban Page
+router.get("/:id/editKanban", async (req, res) => {
+  try {
+    const foundKanban = await Kanban.findById(req.params.id);
+    res.render("editProjectsKanban.ejs", {
+      kanban: foundKanban // pass in found kanban
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/:id/kanban", async (req, res) => {
+  if (req.body.todo !== "") {
+    req.body.tasksAssigned = true;
+  } else {
+    req.body.tasksAssigned = false;
+  }
+  try {
+    const updatedKanban = await Kanban.findByIdAndUpdate(
+      req.params.id,
+      req.body
+      // { new: true }
+    );
+    const project = await Project.findById(req.params.id);
+    project.kanbanTasksAssigned = req.body.tasksAssigned;
+    // res.send(updatedProject);
+    console.log("updatedKanban:", updatedKanban);
+    console.log("project:", project);
+    res.redirect("/projects");
   } catch (error) {
     console.log(error);
   }

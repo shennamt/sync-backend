@@ -1,12 +1,10 @@
-import mongoose from "mongoose"; // mongodb access
+const mongoose = require("mongoose");
 
 const kanbanSchema = new mongoose.Schema({
-  projectName: { type: String, required: true },
-  columnName: { type: Array, required: true },
-  toDo: { type: Array, required: true },
-  inProgress: { type: Array, required: true },
-  done: { type: Array, required: true },
-  assignees: { type: Array, required: true },
+  todo: { type: String },
+  doing: { type: String },
+  done: { type: String },
+  tasksAssigned: { type: Boolean, default: false }
 });
 
 const Kanban = mongoose.model("Kanban", kanbanSchema);
