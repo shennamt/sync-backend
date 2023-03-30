@@ -7,7 +7,7 @@ const Task = require('../models/taskModel')
 // creates new projects with user who auth request, and position of new proj in list
 // success: 201 created res with new proj {} as JSON
 // error: 500 internal server error res with error {} as JSON
-exports.create = async (req, res) => {
+const create = async (req, res) => {
   try {
     const projectsCount = await Project.find().count()
     const project = await Project.create({
@@ -26,7 +26,7 @@ exports.create = async (req, res) => {
 // shows result in descending order
 // sucess: 200 OK res with [] of proj as JSON
 // error: 500 internal server error with error {} as JSON
-exports.getAll = async (req, res) => {
+const getAll = async (req, res) => {
   try {
     const projects = await Project.find({ user: req.user._id }).sort('-position')
     res.status(200).json(projects)
@@ -34,3 +34,5 @@ exports.getAll = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+module.exports = { create, getAll }

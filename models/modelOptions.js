@@ -1,4 +1,4 @@
-exports.schemaOptions = {
+const schemaOptions = {
   toJSON: {
     // called when doc is converted to JSON obj
     // it specifies that virtual properties should be included in JSON output
@@ -13,3 +13,5 @@ exports.schemaOptions = {
   // boolean flag that indicates whether Mongoose should automatically manage the createdAt and updatedAt fields for documents
   timestamp: true
 }
+
+module.exports = schemaOptions
