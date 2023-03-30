@@ -19,7 +19,11 @@
       Kanban: <input type="checkbox" name="kanban" <% if (project.kanban ===
       true) {%> checked <% } %>/>
       <br /><br />
-      <input type="submit" name="" value="Submit Changes" />
+      <input type="submit" name="" value="SUBMIT CHANGES" />
+    </form>
+    <br />
+    <form action="/projects/<%=project.id%>/edit/kanban">
+      <input type="submit" value="EDIT" />
     </form>
   </body>
 </html>

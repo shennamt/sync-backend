@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Project Kanban Page</title>
+  </head>
+  <body>
+    <h1>Edit Project Kanban Page</h1>
+    <form
+      action="/projects/<%=project.id%>/edit/kanban?_method=PUT"
+      method="POST"
+    >
+      Project Name: <%=project.projectName%>
+      <br /><br />
+      Project ID: <%=project.id%>
+      <br /><br />
+      Kanban ID: <%=kanban.id%>
+      <br /><br />
+      Kanban: <% if (project.kanban === true) {%> Yes <% } %>
+      <br /><br />
+      To-do:<br />
+      <% if (kanban.todo === null) { %>
+      <input
+        type="text"
+        name="todo"
+        value=""
+        placeholder="Pending Assignment"
+      /><br /><br />
+      <input type="submit" name="" value="SUBMIT" />
+      <% } else { %>
+      <input
+        type="text"
+        name="todo"
+        value="<%=kanban.todo%>"
+        placeholder="<%=kanban.todo%>"
+      /><br /><br />
+      <input type="submit" name="" value="SUBMIT" />
+      <% } %>
+    </form>
+    <br />
+    <nav>
+      <a href="/projects/<%=project.id%>/edit">Back to Project</a>
+    </nav>
+  </body>
+</html>

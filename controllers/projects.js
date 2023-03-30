@@ -113,4 +113,21 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// KANBAN - Display Kanban Page
+router.get("/:id/edit/kanban", async (req, res) => {
+  try {
+    const foundProject = await Project.findById(req.params.id);
+    const foundKanban = await Kanban.findById(req.params.id);
+    console.log(
+      `foundProject - ${foundProject} and foundKanban - ${foundKanban}`
+    );
+    res.render("editProjectsKanban.ejs", {
+      project: foundProject, // pass in found project
+      kanban: foundKanban // pass in found kanban
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;
