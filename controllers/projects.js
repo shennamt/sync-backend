@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project.js");
+const Kanban = require("../models/Kanban.js");
 
 // PROJECT - Display/Read Index
 router.get("/", async (req, res) => {
@@ -17,7 +18,7 @@ router.get("/new", (req, res) => {
   res.render("newProjects.ejs");
 });
 
-// PROJECT - Create New Project
+// PROJECT - Create New Project and Kanban
 router.post("/", async (req, res) => {
   if (req.body.agile === "on") {
     // if checked, req.body.agile is set to 'on'
@@ -35,7 +36,10 @@ router.post("/", async (req, res) => {
   }
   try {
     const project = await Project.create(req.body);
-    // console.log(project);
+    const kanban = new Kanban({ _id: project.id });
+    await kanban.save();
+    console.log("project", project);
+    console.log("kanban", kanban);
     res.redirect("/projects");
   } catch (error) {
     console.log(error);
