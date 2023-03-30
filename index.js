@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 const cors = require("cors");
 
 const usersController = require("./controllers/users.js");
-const projectsController = require("./controllers/projects.js");
+const projectsController = require("./controllers/projectController.js");
 
 // Include the method-override package
 const methodOverride = require("method-override");
@@ -31,8 +31,6 @@ const corsOptions = {
 //     }
 //   },
 // };
-
-const Project = require("./models/Project.js");
 
 // Middleware; //////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: true })); // body parser
