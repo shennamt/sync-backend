@@ -38,9 +38,7 @@ router.post("/", async (req, res) => {
   try {
     const project = await Project.create(req.body);
     const kanban = await Kanban.create(req.body);
-    console.log(`project.id: ${project.id} \nkanban.id: ${kanban.id}`);
-    kanban.id = project.id;
-    console.log(`project.id: ${project.id} \nkanban.id: ${kanban.id}`);
+    kanban._id = project.id;
     res.redirect("/projects");
   } catch (error) {
     console.log(error);
