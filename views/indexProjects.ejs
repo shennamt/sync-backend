@@ -13,7 +13,11 @@
     <% if(projects[i].agile === true){ %> Agile: Yes <br />
     <% } else { %> Agile: Not Applicable. <br />
     <% } %> <% if(projects[i].kanban === true){ %> Kanban: Yes<br />
-    <% } else { %> Kanban: Not Applicable <br /><% } %>
+    <% } else { %> Kanban: Not Applicable <br /><% } %> <% if
+    (projects[i].kanbanTasksAssigned === false ) { %> Kanban Tasks Assigned:
+    Pending Assignment <% } else if (projects[i].kanbanTasksAssigned === true) {
+    %> Kanban Tasks Assigned: Assigned <% } %>
+    <br />
     <br />
     <div style="display: flex">
       <form

@@ -7,7 +7,11 @@ const Kanban = require("../models/Kanban.js");
 router.get("/", async (req, res) => {
   try {
     const allProjects = await Project.find({});
-    res.render("indexProjects.ejs", { projects: allProjects });
+    const allKanban = await Kanban.find({});
+    res.render("indexProjects.ejs", {
+      projects: allProjects,
+      kanban: allKanban
+    });
   } catch (error) {
     console.log(error);
   }
@@ -50,9 +54,11 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const foundProject = await Project.findById(req.params.id);
+    const foundKanban = await Kanban.findById(req.params.id);
     // res.send(foundProject);
     res.render("showProjects.ejs", {
-      project: foundProject
+      project: foundProject,
+      kanban: foundKanban
     });
   } catch (error) {
     console.log(error);

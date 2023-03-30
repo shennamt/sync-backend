@@ -10,7 +10,14 @@
     Agile: <% if (project.agile === true) { %> Yes<br /><br />
     <% } else { %> Not Applicable.<br /><br /><% } %> Kanban: <% if
     (project.kanban === true) { %> Yes<br /><br />
-    <% } else { %> Not Applicable.<br /><br /><% } %>
+    <% } else { %> Not Applicable.<br /><br /><% } %> <% if
+    (!kanban.tasksAssigned) { %> Tasks: Pending Assignment <% } else { %>
+    Tasks:<br />
+    To-do: <br />
+    Doing: <br />
+    Done: <br />
+    <% } %>
+    <br /><br />
     <nav>
       <a href="/projects">Back to Projects Index</a>
     </nav>
