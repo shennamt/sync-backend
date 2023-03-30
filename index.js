@@ -9,12 +9,11 @@ const PORT = process.env.PORT;
 const cors = require("cors");
 
 const usersController = require("./controllers/users.js");
-const projectsController = require("./controllers/projectController.js");
+const userRoute = require("./routes/userRoute");
+const projectRoute = require("./routes/projectRoute");
 
 // Include the method-override package
 const methodOverride = require("method-override");
-
-const userRoute = require("./routes/user");
 
 const whitelist = ["http://localhost:3000"];
 
@@ -57,11 +56,10 @@ mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
 });
 
-//routes
-
+// ROUTES
 app.use("/api/user", userRoute);
 app.use("/users", usersController);
-app.use("/projects", projectsController);
+app.use("/api/project", projectRoute);
 
 // MAIN - Display App Routes
 app.get("/", async (req, res) => {
