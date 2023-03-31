@@ -19,8 +19,12 @@ const loginUser = async (req, res) => {
     const token = createToken(user._id);
     // console.log("Backend userController.js - token:\n", token);
 
+    // upon successful login, returns a JSON object with the following properties
+    // includes a HTTP status code of 200, indicating the request has succeeded
     res.status(200).json({ email, token, userId, occupation: user.occupation });
     console.log(occupation);
+
+    // upon successful login, exports userId
     module.exports.userId = userId;
   } catch (error) {
     res.status(400).json({ error: error.message });
