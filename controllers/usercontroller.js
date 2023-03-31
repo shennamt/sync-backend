@@ -20,6 +20,7 @@ const loginUser = async (req, res) => {
     console.log("Backend userController.js - token:\n", token);
 
     res.status(200).json({ email, token, userId });
+    module.exports.userId = userId;
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
