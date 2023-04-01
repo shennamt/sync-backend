@@ -2,36 +2,36 @@ const router = require('express').Router()
 const { param } = require('express-validator')
 const validation = require('../handlers/validation')
 const tokenHandler = require('../handlers/tokenHandler')
-const boardController = require('../controllers/board')
+const projectController = require('../controllers/project')
 
 router.post(
   '/',
   tokenHandler.verifyToken,
-  boardController.create
+  projectController.create
 )
 
 router.get(
   '/',
   tokenHandler.verifyToken,
-  boardController.getAll
+  projectController.getAll
 )
 
 router.put(
   '/',
   tokenHandler.verifyToken,
-  boardController.updatePosition
+  projectController.updatePosition
 )
 
 router.get(
   '/favourites',
   tokenHandler.verifyToken,
-  boardController.getFavourites
+  projectController.getFavourites
 )
 
 router.put(
   '/favourites',
   tokenHandler.verifyToken,
-  boardController.updateFavouritePosition
+  projectController.updateFavouritePosition
 )
 
 router.get(
@@ -43,7 +43,7 @@ router.get(
   }),
   validation.validate,
   tokenHandler.verifyToken,
-  boardController.getOne
+  projectController.getOne
 )
 
 router.put(
@@ -55,7 +55,7 @@ router.put(
   }),
   validation.validate,
   tokenHandler.verifyToken,
-  boardController.update
+  projectController.update
 )
 
 router.delete(
