@@ -1,7 +1,7 @@
 const Project = require('../models/projectModel')
 const Column = require('../models/columnModel')
 const Task = require('../models/taskModel')
-
+const User = require('../models/userModel')
 exports.create = async (req, res) => {
   try {
     const projectsCount = await Project.find().count()

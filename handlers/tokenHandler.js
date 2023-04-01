@@ -20,13 +20,15 @@ const tokenDecode = (req) => {
 }
 
 exports.verifyToken = async (req, res, next) => {
-  const tokenDecoded = tokenDecode(req)
-  if (tokenDecoded) {
-    const user = await User.findById(tokenDecoded.id)
-    if (!user) return res.status(401).json('Unathorized')
-    req.user = user
+  const tokenDecoded = tokenDecode(req) // decodes JWT token from auth header
+  if (tokenDecoded) { // returns the decoded token if its valid or not.
+    const user = await User.findById(tokenDecoded.id) // query db using user to find user with match id
+    if (!user) { // no user means invalid
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+    req.user = user //set user {} from db as property of req {}
     next()
   } else {
-    res.status(401).json('Unathorized')
+    return res.status(401).json({ error: 'Unauthorized' })
   }
 }
