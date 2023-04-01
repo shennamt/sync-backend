@@ -1,8 +1,9 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const { schemaOptions } = require('./modelOptions')
 
-const columnSchema = new Schema({
-  project: {
+const sectionSchema = new Schema({
+  board: {
     type: Schema.Types.ObjectId,
     ref: 'Project',
     required: true
@@ -10,7 +11,7 @@ const columnSchema = new Schema({
   title: {
     type: String,
     default: ''
-  },
-})
+  }
+}, schemaOptions)
 
 module.exports = mongoose.model('Column', columnSchema)
