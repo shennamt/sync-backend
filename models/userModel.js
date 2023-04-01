@@ -7,28 +7,28 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
-    unique: true,
+    required: true
+    // unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
 
   occupation: {
-    type: String,
-    required: true,
+    type: String
+    // required: true,
   },
   firstName: { type: String },
   lastName: { type: String },
   student: Boolean,
-  professional: Boolean,
+  professional: Boolean
 });
 
 // static signup method
 userSchema.statics.signup = async function (email, password, occupation) {
   // validation
-
+  console.log("email password", email, password);
   if (!email || !password) {
     throw Error("All fields must be filled");
   }
@@ -48,7 +48,7 @@ userSchema.statics.signup = async function (email, password, occupation) {
   const user = await this.create({
     email,
     password: hash,
-    occupation,
+    occupation
   });
 
   return user;
