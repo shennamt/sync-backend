@@ -1,16 +1,17 @@
 const Project = require('../models/projectModel')
 const Column = require('../models/columnModel')
-const Task = require('../models/task')
+const Task = require('../models/taskModel')
 
 exports.create = async (req, res) => {
   try {
-    const projectsCount = await project.find().count()
-    const project = await Project.create({
+    const projectsCount = await Project.find().count()
+    const newProject = await Project.create({
       user: req.user._id,
       position: projectsCount > 0 ? projectsCount : 0
     })
-    res.status(201).json(project)
+    res.status(201).json(newProject)
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 }

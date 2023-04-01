@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const User = require('../models/userModel')
 const CryptoJS = require('crypto-js')
 const jsonwebtoken = require('jsonwebtoken')
 
@@ -18,6 +18,7 @@ exports.register = async (req, res) => {
     )
     res.status(201).json({ user, token })
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 }

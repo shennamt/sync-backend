@@ -1,7 +1,7 @@
 const router = require('express').Router({ mergeParams: true })
 const { param } = require('express-validator')
 const tokenHandler = require('../handlers/tokenHandler')
-const columnController = require('../controllers/column')
+const columnController = require('../controllers/columnController')
 const validation = require('../handlers/validation')
 
 router.post(

@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken')
-const User = require('../models/user')
+const User = require('../models/userModel')
 
 const tokenDecode = (req) => {
   const bearerHeader = req.headers['authorization']
