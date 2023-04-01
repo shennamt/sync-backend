@@ -1,5 +1,5 @@
 const Project = require('../models/projectModel')
-const Column = require('../models/column')
+const Column = require('../models/columnModel')
 const Task = require('../models/task')
 
 exports.create = async (req, res) => {

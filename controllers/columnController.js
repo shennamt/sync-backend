@@ -1,4 +1,4 @@
-const Column = require('../models/column')
+const Column = require('../models/columnModel')
 const Task = require('../models/taskModel')
 
 exports.create = async (req, res) => {

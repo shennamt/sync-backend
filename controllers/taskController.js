@@ -1,5 +1,5 @@
 const Task = require('../models/taskModel')
-const Column = require('../models/column')
+const Column = require('../models/columnModel')
 
 exports.create = async (req, res) => {
   const { columnId } = req.body
