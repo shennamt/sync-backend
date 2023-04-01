@@ -10,6 +10,7 @@ let userId = "";
 
 const create = async (req, res) => {
   userId = userController.userId;
+  console.log(userId);
   console.log("projectController.js - create function - userId:\n", userId);
   try {
     const projectsCount = await Project.find().count();
