@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const { schemaOptions } = require('./modelOptions')
 
-const sectionSchema = new Schema({
+const columnSchema = new Schema({
   board: {
     type: Schema.Types.ObjectId,
     ref: 'Project',
