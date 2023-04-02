@@ -21,6 +21,7 @@ const requireAuth = async (req, res, next) => {
     //am getting only the Id and passing it down to
     //using the id find the database afterwards next to the route& controller
     req.user = await User.findOne({ _id }).select("_id");
+    console.log("requireAuth: req.user\n", req.user);
     next();
   } catch (error) {
     console.log(error);
