@@ -1,46 +1,70 @@
-const User = require("../models/userModel");
-const jwt = require("jsonwebtoken");
+const User = require('../models/userModel')
+const CryptoJS = require('crypto-js')
+const jsonwebtoken = require('jsonwebtoken')
 
-//receiving the Id from the middleware
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
-};
-
-// login a user
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
+exports.register = async (req, res) => {
+  const { password } = req.body
   try {
-    const user = await User.login(email, password);
-    const userId = user.id;
-    // console.log("Backend userController.js - userId:\n", userId);
-    // console.log("Backend userController.js - req.body:\n", req.body);
-    // create a token
-    const token = createToken(user._id);
-    // console.log("Backend userController.js - token:\n", token);
+    req.body.password = CryptoJS.AES.encrypt(
+      password,
+      process.env.PASSWORD_SECRET_KEY
+    )
 
-    res.status(200).json({ email, token, userId, occupation: user.occupation });
-
-    module.exports.userId = userId;
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const user = await User.create(req.body)
+    const token = jsonwebtoken.sign(
+      { id: user._id },
+      process.env.TOKEN_SECRET_KEY,
+      { expiresIn: '24h' }
+    )
+    res.status(201).json({ user, token })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
   }
-};
+}
 
-// signup a user
-const signupUser = async (req, res) => {
-  const { email, password, occupation } = req.body;
-  //using the user model we are creating, taking into the two agurments email and password we put in the model
+exports.login = async (req, res) => {
+  const { username, password } = req.body
   try {
-    const user = await User.signup(email, password, occupation);
+    const user = await User.findOne({ username }).select('password username')
+    if (!user) {
+      return res.status(401).json({
+        errors: [
+          {
+            param: 'username',
+            msg: 'Invalid username or password'
+          }
+        ]
+      })
+    }
 
-    // create a token
-    const token = createToken(user._id);
-    // send back a response of email and user object^
-    res.status(200).json({ email, token });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const decryptedPass = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASSWORD_SECRET_KEY
+    ).toString(CryptoJS.enc.Utf8)
+
+    if (decryptedPass !== password) {
+      return res.status(401).json({
+        errors: [
+          {
+            param: 'username',
+            msg: 'Invalid username or password'
+          }
+        ]
+      })
+    }
+
+    user.password = undefined
+
+    const token = jsonwebtoken.sign(
+      { id: user._id },
+      process.env.TOKEN_SECRET_KEY,
+      { expiresIn: '24h' }
+    )
+
+    res.status(200).json({ user, token })
+
+  } catch (err) {
+    res.status(500).json(err)
   }
-};
-
-module.exports = { signupUser, loginUser };
+}
