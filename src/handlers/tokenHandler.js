@@ -25,10 +25,12 @@ exports.verifyToken = async (req, res, next) => {
   const tokenDecoded = tokenDecode(req) // extract and decond JWT token for auth header in req
   if (tokenDecoded) {
     const user = await User.findById(tokenDecoded.id) // retrieves user ID and searches db
-    if (!user) return res.status(401).json('Unauthorized')
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
     req.user = user // this middleware sets the property to the found user and calls next()
     next ()
   } else {
-    res.status(401).json('Unauthorized')
+    res.status(401).json({ error: 'Unauthorized' })
   }
 }
