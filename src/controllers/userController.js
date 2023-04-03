@@ -1,4 +1,4 @@
-const User = require('../models/User')
+const User = require('../models/userModel')
 const CryptoJS = require('crypto-js') // for hashing and encryption
 const jsonwebtoken = require('jsonwebtoken')
 

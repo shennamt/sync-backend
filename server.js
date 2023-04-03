@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public'))) // access browser static files
 
 // ROUTES
-app.use('/', require('./src'))
+app.use('/', require('./src/routes'))
 
 // CONNECTING TO DB
 mongoose.connect(process.env.MONGODB_URL).then(() => {
