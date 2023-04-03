@@ -45,7 +45,7 @@ router.post(
 
 // route is protected. only can be accessed by users with valid JWT
 router.post(
-  'verify-token',
+  '/verify-token',
   tokenHandler.verifyToken, // middleware fuction to validate. if valid, user info is stored in req.user property
   (req, res) => {
     res.status(200).json({ user: req.user })
