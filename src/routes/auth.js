@@ -14,13 +14,13 @@ router.post(
     'username must be at least 8 characters long'
   ),
   body('password').isLength({ min: 8 }).withMessage(
-    'passowrd must be at least 8 characters long'
+    'password must be at least 8 characters long'
   ),
   body('confirmPassword').isLength({ min: 8 }).withMessage(
-    'confirmPassword must be at least 8 characters long'
+    'confirm password must be at least 8 characters long'
   ),
   body('username').custom(value => { // make sure no similar username in db
-    return User.findOne({ username: value}).then(user => {
+    return User.findOne({ username: value }).then(user => {
       if (user) {
         return Promise.reject('username already in use')
       }

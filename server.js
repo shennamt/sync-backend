@@ -3,7 +3,6 @@ const path = require('path') // concatenate files and directory path segments
 const cookieParser = require('cookie-parser') // parse http requests
 const logger = require('morgan') // logs http req and res
 const cors = require('cors') // relaxes same-origin policy restriction
-// const http = require('http')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 

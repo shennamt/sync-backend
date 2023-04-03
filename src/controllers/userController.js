@@ -36,6 +36,7 @@ exports.login = async (req, res) => {
         ]
       })
     }
+
     const decryptedPass = CryptoJS.AES.decrypt( // if user found, decrypt password
       user.password,
       process.env.PASSWORD_SECRET_KEY
@@ -50,6 +51,7 @@ exports.login = async (req, res) => {
         ]
       })
     }
+    
     user.password = undefined // upon successfull authentication, set pw to undefined to remove from res.body
     const token = jsonwebtoken.sign( // then gen JWT token with 24 signing in validity
       { id: user._id },
