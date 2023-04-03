@@ -1,4 +1,4 @@
-const { validationResult } = require('espress-validator')
+const { validationResult } = require('express-validator')
 const mongoose = require('mongoose')
 
 // checking for validation errors in req
