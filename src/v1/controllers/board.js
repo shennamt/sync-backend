@@ -25,3 +25,19 @@ exports.getAll = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+exports.updatePosition = async (req, res) => { // PUT req to update position
+  const { boards } = req.body // destructure board prop form req
+  try {
+    for (const key in boards.reverse()) { // rev and iterate loop to update its position
+      const board = boards[key]
+      await Board.findByIdAndUpdate(
+        board.id,
+        { $set: { position: key } }
+      )
+    }
+    res.status(200).json('updated')
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
