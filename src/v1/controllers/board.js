@@ -63,3 +63,42 @@ exports.getOne = async (req, res) => { // GET req for specific board by ID
     res.status(500).json(err);
   }
 }
+
+exports.update = async (req, res) => {
+  const { boardId } = req.params;
+  const { title, description, favourite } = req.body;
+
+  try {
+    if (title === "") req.body.title = "Untitled";
+    if (description === "") req.body.description = "Add description here";
+    const currentBoard = await Board.findById(boardId);
+    if (!currentBoard) {
+      console.log("controllers/board.js: Board not found.");
+      return res.status(404).json("Board not found");
+    }
+
+    if (favourite !== undefined && currentBoard.favourite !== favourite) {
+      const favourites = await Board.find({
+        user: currentBoard.user,
+        favourite: true,
+        _id: { $ne: boardId }
+      }).count();
+      if (favourite) {
+        req.body.favouritePosition =
+          favourites.length > 0 ? favourites.length : 0;
+      } else {
+        for (const key in favourites) {
+          const element = favourites[key];
+          await Board.findByIdAndUpdate(element.id, {
+            $set: { favouritePosition: key }
+          });
+        }
+      }
+    }
+    const board = await Board.findByIdAndUpdate(boardId, { $set: req.body });
+    res.status(200).json(board);
+  } catch (err) {
+    console.log("controllers/board.js: err\n", err);
+    res.status(500).json(err);
+  }
+};
