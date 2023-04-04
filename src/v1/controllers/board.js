@@ -25,7 +25,7 @@ exports.getAll = async (req, res) => {
     res.status(500).json(err);
   }
 };
-
+/* prettier-ignore */
 exports.updatePosition = async (req, res) => { // PUT req to update position
   const { boards } = req.body // destructure board prop form req
   try {
@@ -38,15 +38,19 @@ exports.updatePosition = async (req, res) => { // PUT req to update position
     }
     res.status(200).json('updated')
   } catch (err) {
+    console.log("boards.js/updatePosition: err\n", err);
     res.status(500).json(err)
   }
 }
-
+/* prettier-ignore */
 exports.getOne = async (req, res) => { // GET req for specific board by ID
   const { boardId } = req.params
   try {
     const board = await Board.findOne({ user: req.user._id, _id: boardId }) // based on board and user id
-    if (!board) return res.status(404).json('Board not found')
+    if (!board) {
+      console.log("controllers/board.js: Board not found.");
+      return res.status(404).json("Board not found");
+    }
     const sections = await Section.find({ board: boardId }) // if found, retrieves sections
     for (const section of sections) {
       const tasks = await Task.find({ section: section.id }).populate('section').sort('-position') // for each section, find tasks
@@ -55,6 +59,7 @@ exports.getOne = async (req, res) => { // GET req for specific board by ID
     board._doc.sections = sections
     res.status(200).json(board)
   } catch (err) {
-    res.status(500).json(err)
+    console.log("controllers/board.js: err\n", err);
+    res.status(500).json(err);
   }
 }

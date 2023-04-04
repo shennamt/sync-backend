@@ -9,7 +9,7 @@ router.post("/", tokenHandler.verifyToken, boardController.create);
 router.get("/", tokenHandler.verifyToken, boardController.getAll);
 
 router.put("/", tokenHandler.verifyToken, boardController.updatePosition);
-
+/* prettier-ignore */
 router.get(
   '/:boardId',
   param('boardId').custom(value => {
