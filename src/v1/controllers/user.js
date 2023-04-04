@@ -1,10 +1,10 @@
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
+const user = require("../models/user");
 
 exports.register = async (req, res) => {
-  const { password ,occupation} = req.body;
-  console.log("THIS IS THE "+req.body);
+  const { password } = req.body;
   // register function encrypts the user's password using
   // CryptoJS.AES.encrypt method and creates a new user in
   // MongoDB database using User.create
@@ -14,7 +14,6 @@ exports.register = async (req, res) => {
       process.env.PASSWORD_SECRET_KEY,
       { expiresIn: "24h" }
     );
-req.body.occupation = occupation; // add occupation to req.body
 
     const user = await User.create(req.body);
     // After user is created successfully, a JSON web token is
@@ -29,7 +28,7 @@ req.body.occupation = occupation; // add occupation to req.body
     //   "controllers/user.js: json({ user, token })\n",
     //   res.json({ user, token })
     // );
-    res.status(201).json({ user: { username: user.username, occupation: user.occupation }, token });
+    res.status(201).json({ user, token });
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
@@ -37,7 +36,7 @@ req.body.occupation = occupation; // add occupation to req.body
 };
 
 exports.login = async (req, res) => {
-  const { username, password, occupation } = req.body;
+  const { username, password } = req.body;
   try {
     // login function retrieves the user from the MongoDB database
     // using the User.findOne() method based on the username provided
@@ -46,6 +45,7 @@ exports.login = async (req, res) => {
     // if user does not found or the password is incorrect during the
     // login process, a 401 unauthorized response is sent back to the
     // client with an error message in the response body
+    console.log(user);
     if (!user) {
       return res.status(401).json({
         errors: [
@@ -83,9 +83,10 @@ exports.login = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.status(200).json({ user: { username: user.username, occupation: user.occupation }, token });
+    res.status(200).json({ username:user.username, occupation:user.occupation,token });
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
+  console.log(user);
 };
