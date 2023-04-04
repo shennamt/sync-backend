@@ -42,7 +42,7 @@ exports.updatePosition = async (req, res) => { // PUT req to update position
   }
 }
 
-exports.getOne = async (req, res) => { // GET rew for specific board by ID
+exports.getOne = async (req, res) => { // GET req for specific board by ID
   const { boardId } = req.params
   try {
     const board = await Board.findOne({ user: req.user._id, _id: boardId }) // based on board and user id
