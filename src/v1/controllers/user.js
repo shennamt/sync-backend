@@ -3,7 +3,8 @@ const CryptoJS = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  const { password } = req.body;
+  const { password ,occupation} = req.body;
+  console.log("THIS IS THE "+req.body);
   // register function encrypts the user's password using
   // CryptoJS.AES.encrypt method and creates a new user in
   // MongoDB database using User.create
@@ -13,6 +14,7 @@ exports.register = async (req, res) => {
       process.env.PASSWORD_SECRET_KEY,
       { expiresIn: "24h" }
     );
+req.body.occupation = occupation; // add occupation to req.body
 
     const user = await User.create(req.body);
     // After user is created successfully, a JSON web token is
@@ -27,7 +29,7 @@ exports.register = async (req, res) => {
     //   "controllers/user.js: json({ user, token })\n",
     //   res.json({ user, token })
     // );
-    res.status(201).json({ user, token });
+    res.status(201).json({ user: { username: user.username, occupation: user.occupation }, token });
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
@@ -35,12 +37,12 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, occupation } = req.body;
   try {
     // login function retrieves the user from the MongoDB database
     // using the User.findOne() method based on the username provided
     // in the request body
-    const user = await User.findOne({ username }).select("password username");
+    const user = await User.findOne({ username }).select("password username occupation");
     // if user does not found or the password is incorrect during the
     // login process, a 401 unauthorized response is sent back to the
     // client with an error message in the response body
@@ -81,7 +83,7 @@ exports.login = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.status(200).json({ user, token });
+    res.status(200).json({ user: { username: user.username, occupation: user.occupation }, token });
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
