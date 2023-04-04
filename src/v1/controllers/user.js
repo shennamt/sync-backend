@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
+const user = require("../models/user");
 
 exports.register = async (req, res) => {
   const { password } = req.body;
@@ -40,10 +41,11 @@ exports.login = async (req, res) => {
     // login function retrieves the user from the MongoDB database
     // using the User.findOne() method based on the username provided
     // in the request body
-    const user = await User.findOne({ username }).select("password username");
+    const user = await User.findOne({ username }).select("password username occupation");
     // if user does not found or the password is incorrect during the
     // login process, a 401 unauthorized response is sent back to the
     // client with an error message in the response body
+    console.log(user);
     if (!user) {
       return res.status(401).json({
         errors: [
@@ -81,9 +83,10 @@ exports.login = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.status(200).json({ user, token });
+    res.status(200).json({ username:user.username, occupation:user.occupation,token });
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
+  console.log(user);
 };
