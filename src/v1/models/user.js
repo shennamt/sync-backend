@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
       // password will not be included by default when querying the database
       // for a user for security reasons
       select: false
+    },
+    occupation: {
+      type: String,
+      required: true
     }
   },
   schemaOptions
