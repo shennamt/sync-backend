@@ -46,7 +46,7 @@ router.delete(
   }),
   validation.validate,
   tokenHandler.verifyToken,
-  boardController.getOne
+  boardController.delete
 );
 
 module.exports = router;
