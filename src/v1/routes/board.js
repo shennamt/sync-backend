@@ -10,18 +10,17 @@ router.get("/", tokenHandler.verifyToken, boardController.getAll);
 
 router.put("/", tokenHandler.verifyToken, boardController.updatePosition);
 
-/* prettier-ignore */
 router.get(
-  '/:boardId',
-  param('boardId').custom(value => {
+  "/:boardId",
+  param("boardId").custom((value) => {
     if (!validation.isObjectId(value)) {
-      return Promise.reject('invalid id')
-    } else return Promise.resolve()
+      return Promise.reject("invalid id");
+    } else return Promise.resolve();
   }),
   validation.validate,
   tokenHandler.verifyToken,
   boardController.getOne
-  )
+);
 
 router.put(
   "/:boardId",
@@ -30,7 +29,7 @@ router.put(
       // cause the validation to fail and return a 400 Bad Request
       //  response to the client
       return Promise.reject("invalid id");
-    } else return Promise.resolve(); // BUG FIXED - 404 Not Found
+    } else return Promise.resolve();
   }),
   validation.validate,
   tokenHandler.verifyToken,
