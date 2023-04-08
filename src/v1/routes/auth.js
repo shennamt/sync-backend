@@ -23,7 +23,7 @@ router.post(
     return User.findOne({ username: value }).then((user) => {
       if (user) {
         return Promise.reject("username already used");
-      }
+      } else return Promise.resolve();
     });
   }),
   validation.validate,

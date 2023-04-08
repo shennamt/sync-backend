@@ -4,7 +4,8 @@ const jsonwebtoken = require("jsonwebtoken");
 const user = require("../models/user");
 
 exports.register = async (req, res) => {
-  const { password } = req.body;
+  const { password, occupation } = req.body;
+  console.log("user.js req.body\n", req.body);
   // register function encrypts the user's password using
   // CryptoJS.AES.encrypt method and creates a new user in
   // MongoDB database using User.create
@@ -14,7 +15,7 @@ exports.register = async (req, res) => {
       process.env.PASSWORD_SECRET_KEY,
       { expiresIn: "24h" }
     );
-
+    req.body.occupation = occupation;
     const user = await User.create(req.body);
     // After user is created successfully, a JSON web token is
     // generated using the jsonwebtoken.sign() method and returned
@@ -24,19 +25,14 @@ exports.register = async (req, res) => {
       process.env.TOKEN_SECRET_KEY,
       { expiresIn: "24h" }
     );
-    // console.log(
-    //   "controllers/user.js: json({ user, token })\n",
-    //   res.json({ user, token })
-    // );
     res.status(201).json({ user, token });
   } catch (err) {
-    console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, occupation } = req.body;
   try {
     // login function retrieves the user from the MongoDB database
     // using the User.findOne() method based on the username provided
@@ -52,7 +48,7 @@ exports.login = async (req, res) => {
         errors: [
           {
             param: "username",
-            msg: "Invalid username or password"
+            msg: "Invalid user"
           }
         ]
       });
@@ -69,8 +65,8 @@ exports.login = async (req, res) => {
       return res.status(401).json({
         errors: [
           {
-            param: "username",
-            msg: "Invalid username or password"
+            param: "password",
+            msg: "Invalid password"
           }
         ]
       });
@@ -87,8 +83,8 @@ exports.login = async (req, res) => {
     res
       .status(200)
       .json({ username: user.username, occupation: user.occupation, token });
+    console.log("backend/user.js", username, occupation, token);
   } catch (err) {
-    console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
 };

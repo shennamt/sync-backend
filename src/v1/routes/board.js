@@ -4,20 +4,25 @@ const validation = require("../handlers/validation");
 const tokenHandler = require("../handlers/tokenHandler");
 const boardController = require("../controllers/board");
 
-/* prettier-ignore */
-router.get(
-  '/:boardId',
-  param('boardId').custom(value => {
-    if (!validation.isObjectId(value)) {
-      return Promise.reject('invalid id')
-    } else return Promise.resolve()
-  }),
-  validation.validate,
-  tokenHandler.verifyToken,
-  boardController.getOne
-  )
+router.post("/", tokenHandler.verifyToken, boardController.create);
 
-router.delete(
+router.get("/", tokenHandler.verifyToken, boardController.getAll);
+
+router.put("/", tokenHandler.verifyToken, boardController.updatePosition);
+
+router.get(
+  "/favourites",
+  tokenHandler.verifyToken,
+  boardController.getFavourites
+);
+
+router.put(
+  "/favourites",
+  tokenHandler.verifyToken,
+  boardController.updateFavouritePosition
+);
+
+router.get(
   "/:boardId",
   param("boardId").custom((value) => {
     if (!validation.isObjectId(value)) {
@@ -29,9 +34,30 @@ router.delete(
   boardController.getOne
 );
 
-router.post("/", tokenHandler.verifyToken, boardController.create);
+router.put(
+  "/:boardId",
+  param("boardId").custom((value) => {
+    if (!validation.isObjectId(value)) {
+      // cause the validation to fail and return a 400 Bad Request
+      //  response to the client
+      return Promise.reject("invalid id");
+    } else return Promise.resolve();
+  }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  boardController.update
+);
 
-router.get("/", tokenHandler.verifyToken, boardController.getAll);
+router.delete(
+  "/:boardId",
+  param("boardId").custom((value) => {
+    if (!validation.isObjectId(value)) {
+      return Promise.reject("invalid id");
+    } else return Promise.resolve();
+  }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  boardController.delete
+);
 
-router.put("/", tokenHandler.verifyToken, boardController.updatePosition);
 module.exports = router;
