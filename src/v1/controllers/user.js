@@ -1,10 +1,10 @@
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
-// const user = require("../models/user");
+const user = require("../models/user");
 
 exports.register = async (req, res) => {
-  const { password } = req.body;
+  const { password, occupation } = req.body;
   console.log("user.js req.body\n", req.body);
   // register function encrypts the user's password using
   // CryptoJS.AES.encrypt method and creates a new user in
@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
       process.env.PASSWORD_SECRET_KEY,
       { expiresIn: "24h" }
     );
-
+    req.body.occupation = occupation;
     const user = await User.create(req.body);
     // After user is created successfully, a JSON web token is
     // generated using the jsonwebtoken.sign() method and returned
