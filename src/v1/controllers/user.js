@@ -1,10 +1,11 @@
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const jsonwebtoken = require("jsonwebtoken");
-const user = require("../models/user");
+// const user = require("../models/user");
 
 exports.register = async (req, res) => {
   const { password } = req.body;
+  console.log("user.js req.body\n", req.body);
   // register function encrypts the user's password using
   // CryptoJS.AES.encrypt method and creates a new user in
   // MongoDB database using User.create
@@ -36,7 +37,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, occupation } = req.body;
   try {
     // login function retrieves the user from the MongoDB database
     // using the User.findOne() method based on the username provided
@@ -87,6 +88,7 @@ exports.login = async (req, res) => {
     res
       .status(200)
       .json({ username: user.username, occupation: user.occupation, token });
+    console.log("backend/user.js", username, occupation, token);
   } catch (err) {
     console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
