@@ -11,6 +11,18 @@ router.get("/", tokenHandler.verifyToken, boardController.getAll);
 router.put("/", tokenHandler.verifyToken, boardController.updatePosition);
 
 router.get(
+  "/favourites",
+  tokenHandler.verifyToken,
+  boardController.getFavourites
+);
+
+router.put(
+  "/favourites",
+  tokenHandler.verifyToken,
+  boardController.updateFavouritePosition
+);
+
+router.get(
   "/:boardId",
   param("boardId").custom((value) => {
     if (!validation.isObjectId(value)) {
