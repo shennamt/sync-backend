@@ -25,13 +25,8 @@ exports.register = async (req, res) => {
       process.env.TOKEN_SECRET_KEY,
       { expiresIn: "24h" }
     );
-    // console.log(
-    //   "controllers/user.js: json({ user, token })\n",
-    //   res.json({ user, token })
-    // );
     res.status(201).json({ user, token });
   } catch (err) {
-    console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
 };
@@ -53,7 +48,7 @@ exports.login = async (req, res) => {
         errors: [
           {
             param: "username",
-            msg: "Invalid username or password"
+            msg: "Invalid user"
           }
         ]
       });
@@ -70,8 +65,8 @@ exports.login = async (req, res) => {
       return res.status(401).json({
         errors: [
           {
-            param: "username",
-            msg: "Invalid username or password"
+            param: "password",
+            msg: "Invalid password"
           }
         ]
       });
@@ -90,7 +85,6 @@ exports.login = async (req, res) => {
       .json({ username: user.username, occupation: user.occupation, token });
     console.log("backend/user.js", username, occupation, token);
   } catch (err) {
-    console.log("controllers/user.js: err\n", err);
     res.status(500).json(err);
   }
 };
