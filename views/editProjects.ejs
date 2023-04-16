@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Project Page</title>
+  </head>
+  <body>
+    <h1>Edit Project Page</h1>
+    <form action="/projects/<%=project.id%>?_method=PUT" method="POST">
+      Project Name:
+      <input
+        type="text"
+        name="projectName"
+        value="<%=project.projectName%>"
+      /><br /><br />
+      Agile: <input type="checkbox" name="agile" <% if (project.agile === true)
+      {%> checked <% } %>/>
+      <br /><br />
+      Kanban: <input type="checkbox" name="kanban" <% if (project.kanban ===
+      true) {%> checked <% } %>/>
+      <br /><br />
+      <input type="submit" name="" value="SUBMIT CHANGES" />
+    </form>
+    <br />
+    <form action="/projects/<%=project.id%>/editKanban">
+      <input type="submit" value="ADD/EDIT KANBAN TASKS" />
+    </form>
+  </body>
+</html>

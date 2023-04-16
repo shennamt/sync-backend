@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit User Page</title>
+  </head>
+  <body>
+    <h1>Edit User Page</h1>
+    <form action="/users/<%=user.id%>?_method=PUT" method="POST">
+      Email:
+      <input type="text" name="email" value="<%=user.email%>" /><br /><br />
+      First Name:
+      <input
+        type="text"
+        name="firstName"
+        value="<%=user.firstName%>"
+      /><br /><br />
+      Last Name:
+      <input
+        type="text"
+        name="lastName"
+        value="<%=user.lastName%>"
+      /><br /><br />
+      Student: <input type="checkbox" name="student" <% if (user.student ===
+      true) {%> checked <% } %>/>
+      <br /><br />
+      Professional: <input type="checkbox" name="professional" <% if
+      (user.professional === true) {%> checked <% } %>/>
+      <br /><br />
+      <input type="submit" name="" value="SUBMIT CHANGES" />
+    </form>
+  </body>
+</html>
