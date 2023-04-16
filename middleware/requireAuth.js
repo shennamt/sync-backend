@@ -4,6 +4,9 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
+// The middleware function first checks whether an authorization token exists in the headers
+// of the incoming HTTP request. If no token is present, it returns a 401 status code along
+// with an error message in JSON format indicating that an authorization token is required.
 const requireAuth = async (req, res, next) => {
   // verify user is authenticated
   const { authorization } = req.headers;

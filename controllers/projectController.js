@@ -1,4 +1,6 @@
 const Project = require("../models/projectModel");
+
+// upon successful authentication, userController is imported into projectController for its userId
 const userController = require("./userController");
 
 // POST
@@ -6,6 +8,8 @@ const userController = require("./userController");
 // creates new projects with user who auth request, and position of new proj in list
 // success: 201 created res with new proj {} as JSON
 // error: 500 internal server error res with error {} as JSON
+
+// declare userId as global variable to be used by create and getAll function
 let userId = "";
 
 const create = async (req, res) => {
